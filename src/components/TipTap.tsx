@@ -9,6 +9,7 @@ import Heading from "@tiptap/extension-heading";
 import History from "@tiptap/extension-history";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
+import Youtube from '@tiptap/extension-youtube'
 
 export default function TipTap({
   description,
@@ -41,6 +42,10 @@ export default function TipTap({
       TaskList,
       TaskItem.configure({
         nested: true,
+      }),
+      Youtube.configure({
+        controls: false,
+        nocookie: true,
       }),
     ],
     content: description,
