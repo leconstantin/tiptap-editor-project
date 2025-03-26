@@ -9,7 +9,10 @@ import Heading from "@tiptap/extension-heading";
 import History from "@tiptap/extension-history";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
-import Youtube from '@tiptap/extension-youtube'
+import Youtube from "@tiptap/extension-youtube";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import Link from "@tiptap/extension-link";
 
 export default function TipTap({
   description,
@@ -47,6 +50,15 @@ export default function TipTap({
         controls: false,
         nocookie: true,
       }),
+      Color.configure(),
+      TextStyle.configure(),
+      Link.configure({
+        
+        HTMLAttributes: {
+          class:
+            "text-muted-foreground underline underline-offset-[5px] hover:text-primary transition-colors cursor-pointer",
+        },
+      }),
     ],
     content: description,
     editorProps: {
@@ -58,7 +70,7 @@ export default function TipTap({
     onUpdate({ editor }) {
       onChange(editor.getHTML());
     },
-    immediatelyRender: false
+    immediatelyRender: false,
   });
 
   if (!isClient) return null; // Prevent SSR mismatch

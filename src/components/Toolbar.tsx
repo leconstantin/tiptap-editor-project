@@ -14,6 +14,8 @@ import {
   SquareSplitVertical,
   BetweenHorizonalStart,
   BetweenHorizonalEnd,
+  Palette,
+  Link,
 } from "lucide-react";
 import { Toggle } from "./ui/toggle";
 import { Input } from "./ui/input";
@@ -40,7 +42,6 @@ export default function Toolbar({ editor }: Props) {
   const [url, setUrl] = React.useState("");
 
   const addYoutubeVideo = () => {
-
     if (url) {
       editor?.commands.setYoutubeVideo({
         src: url,
@@ -113,6 +114,32 @@ export default function Toolbar({ editor }: Props) {
           >
             <ListTodo className="h-4 w-4" />
           </Toggle>
+          <Toggle
+            size="sm"
+            pressed={editor.isActive("link")}
+            onPressedChange={() =>
+              editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+            }
+          >
+            <Link className="h-4 w-4" />
+          </Toggle>
+          <Input
+            type="color"
+            onInput={(event) =>
+              editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()
+            }
+            value={editor.getAttributes("textStyle").color}
+            className="w-8 inline-block h-8 px-1 py-1 min-w-8 cursor-pointer"
+          />
+          <Toggle
+            size="sm"
+            pressed={editor.isActive("unsetColor")}
+            onPressedChange={() =>
+              editor.chain().focus().unsetColor().run()
+            }
+          >
+            <Palette className="h-4 w-4" />
+          </Toggle>
           <Dialog>
             <DialogTrigger asChild>
               <Toggle size="sm">
@@ -168,7 +195,9 @@ export default function Toolbar({ editor }: Props) {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={addYoutubeVideo}>Save changes</Button>
+                <Button type="submit" onClick={addYoutubeVideo}>
+                  Save changes
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -188,10 +217,7 @@ export default function Toolbar({ editor }: Props) {
           >
             <Redo2 className="h-4 w-4" />
           </Toggle>
-         
         </div>
-       
-        
 
         {editor.isActive("taskList") && (
           <div>
